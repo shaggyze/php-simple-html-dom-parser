@@ -1,14 +1,15 @@
 <?php
+
 // $Rev: 169 $
 // -----------------------------------------------------------------------------
 // setup
 error_reporting(E_ALL);
-require_once('../simple_html_dom.php');
-$dom = new simple_html_dom;
+require_once '../simple_html_dom.php';
+$dom = new simple_html_dom();
 
 // -----------------------------------------------------------------------------
 // comments test
-$str = <<<HTML
+$str = <<<'HTML'
 <div class="class0" id="id0" >
     <!--
         <input type=submit name="btnG" value="go" onclick='goto("url0")'>
@@ -16,11 +17,11 @@ $str = <<<HTML
 </div>
 HTML;
 $dom->load($str);
-assert(count($dom->find('input'))==0);
+assert(count($dom->find('input')) == 0);
 
 // -----------------------------------------------------------------------------
 // <code> test
-$str = <<<HTML
+$str = <<<'HTML'
 <div class="class0" id="id0" >
     <CODE>
         <input type=submit name="btnG" value="go" onclick='goto("url0")'>
@@ -28,23 +29,23 @@ $str = <<<HTML
 </div>
 HTML;
 $dom->load($str);
-assert(count($dom->find('code'))==1);
-assert(count($dom->find('input'))==0);
+assert(count($dom->find('code')) == 1);
+assert(count($dom->find('input')) == 0);
 
 // -----------------------------------------------------------------------------
 // <pre> & <code> test
-$str = <<<HTML
+$str = <<<'HTML'
 <PRE><CODE CLASS=Java>
     <input type=submit name="btnG" value="go" onclick='goto("url0")'>
 </CODE></PRE>
 HTML;
 $dom->load($str);
-assert(count($dom->find('pre'))==1);
-assert(count($dom->find('input'))==0);
+assert(count($dom->find('pre')) == 1);
+assert(count($dom->find('input')) == 0);
 
 // -----------------------------------------------------------------------------
 // <script> & <style> test
-$str = <<<HTML
+$str = <<<'HTML'
 <script type="text/javascript" src="test.js"></script>
 <script type="text/javascript" src="test.js"/>
 
@@ -57,22 +58,22 @@ var foo = "bar";
 </script>
 HTML;
 $dom->load($str);
-assert(count($dom->find('style'))==1);
-assert(count($dom->find('script'))==3);
+assert(count($dom->find('style')) == 1);
+assert(count($dom->find('script')) == 3);
 
 // -----------------------------------------------------------------------------
 // php short tag test
-$str = <<<HTML
+$str = <<<'HTML'
 <a href="<?=h('ok')?>">hello</a>
 <input type=submit name="btnG" value="<?php echoh('ok')?>">
 HTML;
 $dom->load($str);
-assert($dom->find('a', 0)->href==="<?=h('ok')?>");
-assert($dom->find('input', 0)->value==="<?php echoh('ok')?>");
+assert($dom->find('a', 0)->href === "<?=h('ok')?>");
+assert($dom->find('input', 0)->value === "<?php echoh('ok')?>");
 
 // -----------------------------------------------------------------------------
 // noise stripping test
-$str = <<<HTML
+$str = <<<'HTML'
 <!--
 <img class="class0" id="id0" src="src0">-->
 <img class="class1" id="id1" src="src1">
@@ -80,10 +81,10 @@ $str = <<<HTML
 -->
 HTML;
 $dom->load($str);
-assert(count($dom->find('img'))==1);
-assert($dom==$str);
+assert(count($dom->find('img')) == 1);
+assert($dom == $str);
 // -----------------------------------------------
-$str = <<<HTML
+$str = <<<'HTML'
 <script type="text/javascript" src="test1.js">ss</script>
 <script type="text/javascript" src="test2.js"/>
 <script type="text/javascript" src="test3.js" />
@@ -125,13 +126,12 @@ var foo = "bar";
 </script>
 HTML;
 $dom->load($str);
-assert(count($dom->find('script'))==8);
-assert(count($dom->find('style'))==3);
+assert(count($dom->find('script')) == 8);
+assert(count($dom->find('style')) == 3);
 //echo "\n\n\n\n".$dom->save();
-assert($dom==$str);
+assert($dom == $str);
 
 // -----------------------------------------------------------------------------
 // tear down
 $dom->clear();
 unset($dom);
-?>

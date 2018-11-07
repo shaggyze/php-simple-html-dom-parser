@@ -1,12 +1,14 @@
 <?php
-include_once('../../simple_html_dom.php');
 
-function scraping_slashdot() {
+include_once '../../simple_html_dom.php';
+
+function scraping_slashdot()
+{
     // create HTML DOM
     $html = file_get_html('http://slashdot.org/');
 
     // get article block
-    foreach($html->find('div[id^=firehose-]') as $article) {
+    foreach ($html->find('div[id^=firehose-]') as $article) {
         // get title
         $item['title'] = trim($article->find('a.datitle', 0)->plaintext);
         // get body
@@ -14,7 +16,7 @@ function scraping_slashdot() {
 
         $ret[] = $item;
     }
-    
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -26,10 +28,9 @@ function scraping_slashdot() {
 // test it!
 $ret = scraping_slashdot();
 
-foreach($ret as $v) {
+foreach ($ret as $v) {
     echo $v['title'].'<br>';
     echo '<ul>';
     echo '<li>'.$v['body'].'</li>';
     echo '</ul>';
 }
-?>
