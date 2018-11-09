@@ -1,3 +1,5 @@
+> Forked from the [original one](https://github.com/sunra/php-simple-html-dom-parser).
+
 php-simple-html-dom-parser
 ==========================
 
@@ -32,7 +34,7 @@ use Sunra\PhpSimple\HtmlDomParser;
 
 ...
 $dom = HtmlDomParser::str_get_html( $str );
-or 
+or
 $dom = HtmlDomParser::file_get_html( $file_name );
 
 $elems = $dom->find($elem_name);
