@@ -765,8 +765,12 @@ class simple_html_dom_node
 
             // convert to lowercase
             if ($this->dom->lowercase) {
-                $tag = strtolower($tag);
-                $key = strtolower($key);
+				if ($tag !== null) {
+					$tag = strtolower($tag);
+				}
+				if ($key !== null) {
+					$key = strtolower($key);
+				}
             }
             //elements that do NOT have the specified attribute
             if (isset($key[0]) && $key[0] === '!') {
